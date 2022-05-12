@@ -3,6 +3,7 @@ import { lstatSync, existsSync, readdirSync, readFileSync, unlinkSync } from "fs
 import { join } from "path";
 import { get } from "https";
 import { spawnSync } from "child_process";
+import { error } from "console";
 
 // basic constants
 const LowVersion = 0;
@@ -126,6 +127,22 @@ class Action {
         
         // output variables
         this.successPackages = 0;
+
+        // verify if nugetSource has comma then nugetKey too and have the same
+        // number of elements
+        if(this.nugetSource.includes(",") && this.nugetKey.split(",").length !== this.nugetSource.split(",").length){
+            crash("nugetSource and nugetKey must have the same number of elements");
+        }
+
+        // verify if nugetserverTimeout is a number
+        if(!isNaN(this.nugetServerTimeout)){
+            this.nugetServerTimeout = parseInt(this.nugetServerTimeout)
+        }
+
+        // verify if configuration has valid value
+        if(!this.configuration || !/^(Debug|Release)$/.test(this.configuration)){
+            crash("configuration must be Debug or Release");
+        }
     }
 
     main() {
@@ -209,9 +226,9 @@ class Action {
 
         // check if version and name is found
         if (!parsedVersion)
-            crash("unable to extract version!");
+            printErr("unable to extract version!");
         if (!this.nameRegex)
-            crash("unable to extract name!");
+            printErr("unable to extract name!");
 
         // get version and name
         let version = parsedVersion[1];
