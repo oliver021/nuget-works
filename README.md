@@ -38,7 +38,7 @@ jobs:
         uses: oliver021/nuget-works@v1
         with:
           # As simple as set the root source directory.
-            PROJECT_FILE_PATH: "src"
+            TARGET: "src"
           
           # Parameter for 'dotnet build' Configuration to build and package.
           # BUILD_CONFIGURATION: Release
