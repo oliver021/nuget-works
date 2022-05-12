@@ -1,0 +1,63 @@
+name: Publish NuGet
+author: Oliver Valiente (@oliver021)
+description: GitHub action to build, pack & publish either single packgage from project or many packages
+from a directory that contains many projects.
+
+inputs:
+    TARGET:
+        description: Filepath of the project to be packaged, relative to root of repository
+        required: false
+        default: ""
+    BUILD_CONFIGURATION:
+        description: Configuration to build and package (default is Release)
+        required: false
+        default: Release 
+    BUILD_PLATFORM:
+        description: Platform target to compile (default is empty/AnyCPU)
+        required: false
+        default: 
+    NUSPEC_FILE:
+        description: file path to nuspec file
+        required: false
+        default:
+    NAME_REGEX:
+        description: Regex pattern to extract name info in a capturing group
+        required: false
+        default: ^\s*<PackageId>(.*)<\/PackageId>\s*$
+    VERSION_REGEX:
+        description: Regex pattern to extract version info in a capturing group
+        required: false
+        default: ^\s*<(Package|)Version>(.*)<\/(Package|)Version>\s*$
+    TAG:
+        description: Version of the git tag, if is set then put new tag
+        required: false
+        default: ""
+    NUGET_KEY:
+        description: API key to authenticate with NuGet server
+        required: true
+    NUGET_TIMEOUT:
+        description: "Timeout for pushing to a server in seconds. Defaults to 300 seconds (5 minutes)"
+        required: false
+        default: "-1"
+    NUGET_SOURCE:
+        description: NuGet server uri hosting the packages, defaults to https://api.nuget.org
+        required: false
+        default: https://api.nuget.org
+    INCLUDE_SYMBOLS:
+        description: Flag to toggle pushing symbols along with nuget package to the server, disabled by default
+        required: false
+        default: false
+
+outputs:
+    FOUND_PACKAGES:
+        description: Number of packages found by the process
+    PUSHED_PACKAGES:
+        description: Number of packages pushed by the process
+
+runs:
+    using: node16
+    main: action.js
+
+branding:
+    icon: upload-cloud
+    color: purple

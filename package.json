@@ -1,0 +1,11 @@
+{
+  "name": "nuget-posts",
+  "version": "1.2.1",
+  "description": "The GitHub Action to push nuget packages to use dotnet projects.",
+  "main": "action.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oliver Valiente",
+  "license": "MIT"
+}
